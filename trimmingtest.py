@@ -4,7 +4,7 @@ from nlplearn import *
 from sentenceselection import *
 from sklearn.pipeline import Pipeline
 from sklearn.grid_search import ParameterGrid
-import pickle
+import cPickle as pickle
 import os.path
 
 
@@ -37,6 +37,13 @@ if __name__ == '__main__':
         ('trim', ManualTrimmer()),
         ])
 
+    pipeline3 = Pipeline([
+        ('clean', SimpleTextCleaner()),
+        ('split', SentenceSplitter()),
+        ('parse', StanfordParser()),
+        ('select', FirstSentenceSelector()),
+        ])
+
     # parameters = {
     #     'compress__tags_importance':
     #     [i/10.0 for i in xrange(1,10)],
@@ -63,3 +70,4 @@ if __name__ == '__main__':
 
     print "SentenceCompressor: %f" % scorer(pipeline, documents)
     print "ManualTrimmer: %f" % scorer(pipeline2, documents)
+    print "Cut after 75: %f" % scorer(pipeline3, documents)

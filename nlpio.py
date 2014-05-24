@@ -60,11 +60,40 @@ def loadDocumentsFromFile(fileName,modelPath='data/duc2004/eval/models/1/',peerP
 def getId(name):
     return name.split('.')[-3]
 
-def produceRougeInput(documents,predictionFileNames):
+# def produceRougeInput(documents,predictionFileNames):
+#     lines = []
+#     lines.append('<ROUGE-EVAL version="1.0">')
+#     for i,document in enumerate(documents):
+#         lines.append('<EVAL ID="%d">' % (i+1))
+#         lines.append('<PEER-ROOT>')
+#         lines.append('.')
+#         lines.append('</PEER-ROOT>')
+#         lines.append('<MODEL-ROOT>')
+#         lines.append('.')
+#         lines.append('</MODEL-ROOT>')
+#         lines.append('<INPUT-FORMAT TYPE="SPL">')
+#         lines.append('</INPUT-FORMAT>')
+#         lines.append('<PEERS>')
+#         #for peer in document.peerFileNames:
+#         for peer in predictionFileNames:
+#             lines.append('<P ID="%s">'%getId(peer))
+#             lines.append(peer)
+#             lines.append('</P>')
+#         lines.append('</PEERS>')
+#         lines.append('<MODELS>')
+#         for model in document.modelFileNames:
+#             lines.append('<M ID="%s">'%getId(model))
+#             lines.append(model)
+#             lines.append('</M>')
+#         lines.append('</MODELS>')
+#         lines.append('</EVAL>')
+#     lines.append('</ROUGE-EVAL>')
+#     return "\n".join(lines)
+def produceRougeInput(documents, predictionFileNames):
     lines = []
     lines.append('<ROUGE-EVAL version="1.0">')
-    for i,document in enumerate(documents):
-        lines.append('<EVAL ID="%d">' % (i+1))
+    for i, document in enumerate(documents):
+        lines.append('<EVAL ID="%d">' % (i + 1))
         lines.append('<PEER-ROOT>')
         lines.append('.')
         lines.append('</PEER-ROOT>')
@@ -74,15 +103,14 @@ def produceRougeInput(documents,predictionFileNames):
         lines.append('<INPUT-FORMAT TYPE="SPL">')
         lines.append('</INPUT-FORMAT>')
         lines.append('<PEERS>')
-        #for peer in document.peerFileNames:
-        for peer in predictionFileNames:
-            lines.append('<P ID="%s">'%getId(peer))
-            lines.append(peer)
-            lines.append('</P>')
+        peer = predictionFileNames[i]
+        lines.append('<P ID="%s">' % getId(peer))
+        lines.append(peer)
+        lines.append('</P>')
         lines.append('</PEERS>')
         lines.append('<MODELS>')
         for model in document.modelFileNames:
-            lines.append('<M ID="%s">'%getId(model))
+            lines.append('<M ID="%s">' % getId(model))
             lines.append(model)
             lines.append('</M>')
         lines.append('</MODELS>')
